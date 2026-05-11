@@ -53,6 +53,9 @@ UFSJ_Aprendizado_Maquina_TP1/
 │     └─ error_analysis/
 │        ├─ 03_analysis_no_transform_metricas_por_faixa_raw.csv
 │        └─ 03_analysis_no_transform_metricas_por_faixa_formatado.csv
+├─ documents/
+│  ├─ apresentacao_tp1_parte2.pdf                # Apresentação em PDF do trabalho
+│  └─ versao_parcial_artigo.pdf                  # Versão parcial do artigo do projeto
 ├─ LICENSE
 ├─ README.md
 └─ requirements.txt
@@ -308,6 +311,17 @@ Se o objetivo for apenas inspecionar os resultados consolidados que já estão v
 ```text
 code/revenue/03_analysis_no_transform.ipynb
 ```
+
+---
+
+## Documentos versionados
+
+Além dos artefatos gerados pelo pipeline, o repositório também mantém em `documents/` os arquivos de apoio e entrega do trabalho:
+
+- `documents/apresentacao_tp1_parte2.pdf`
+- `documents/versao_parcial_artigo.pdf`
+
+Esses arquivos são mantidos no repositório como documentos versionados e não fazem parte da geração automática dos notebooks.
 
 ---
 
