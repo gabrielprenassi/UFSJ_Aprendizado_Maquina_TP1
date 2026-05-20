@@ -65,6 +65,15 @@ TARGET_CONFIGS = {
         "forward": lambda values: values,
         "inverse": lambda values: values,
     },
+    "Com log1p": {
+        "forward": lambda values: np.log1p(values),
+        "inverse": lambda values: np.expm1(values),
+    },
+}
+
+TARGET_FILE_KEYS = {
+    "Sem transformação": "sem_transformacao",
+    "Com log1p": "com_log1p",
 }
 
 MODEL_CONFIGS = {

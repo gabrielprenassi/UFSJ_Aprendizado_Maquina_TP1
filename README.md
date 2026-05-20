@@ -10,7 +10,7 @@ O projeto contempla:
 - codificação de gêneros e idiomas originais em variáveis binárias;
 - geração de 10 folds estratificados com base em faixas de `revenue`;
 - comparação entre `Dummy Regressor`, `Linear Regression`, `KNN Regressor`, `SVR`, `Decision Tree Regressor`, `Random Forest Regressor`, `Gradient Boosting Regressor` e `XGBoost Regressor`;
-- consolidação dos resultados em CSVs com métricas por fold, predições e resumo agregado;
+- consolidação dos resultados em CSVs com métricas por fold, predições e resumo agregado para múltiplas versões da variável-alvo;
 - geração de tabelas e figuras para análise de erros, comportamento por faixa de receita e importância de atributos.
 
 No estado atual salvo no repositório, os principais pontos do pipeline são:
@@ -18,7 +18,7 @@ No estado atual salvo no repositório, os principais pontos do pipeline são:
 - a coleta do TMDB usa as listas `popular` e `top_rated`, com `pages=500` para cada uma;
 - a base bruta persistida em `data/TMDB_movies_original.csv` possui `20000` registros;
 - a base processada persistida em `data/TMDB_movies_processed.csv` possui `6918` filmes e `73` colunas;
-- a variável-alvo `revenue` é modelada apenas na escala original em dólares;
+- a variável-alvo `revenue` é modelada tanto na escala original em dólares quanto na transformação `log1p(revenue)`, com reconversão por `expm1` antes da avaliação final;
 - a estratificação usa `pd.qcut` com `5` faixas de receita;
 - a validação externa usa `StratifiedKFold(n_splits=10, shuffle=True, random_state=222050006)`;
 - a busca de hiperparâmetros usa `GridSearchCV` com um holdout interno `80/20` dentro de cada fold de treino;
@@ -37,8 +37,9 @@ UFSJ_Aprendizado_Maquina_TP1/
 │  │  └─ images/                                 # Figuras exportadas na etapa de TMDB
 │  └─ revenue/
 │     ├─ 01_fold_generation.ipynb                # Gera bins e folds estratificados
-│     ├─ 02_model_grid_search.ipynb              # Compara regressores e salva métricas
-│     ├─ 03_analysis_no_transform.ipynb          # Análise detalhada do melhor modelo
+│     ├─ 02_model_grid_search.ipynb              # Compara regressores nas duas versões do alvo
+│     ├─ 03_analysis_no_transform.ipynb          # Análise detalhada do melhor modelo sem transformação
+│     ├─ 04_analysis_log1p.ipynb                 # Análise detalhada do melhor modelo com log1p
 │     ├─ experiment_utils.py                     # Funções auxiliares compartilhadas
 │     └─ images/                                 # Figuras exportadas na etapa de regressão
 ├─ data/
@@ -52,7 +53,9 @@ UFSJ_Aprendizado_Maquina_TP1/
 │     ├─ model_selection_summary.csv             # Resumo médio por modelo
 │     └─ error_analysis/
 │        ├─ 03_analysis_no_transform_metricas_por_faixa_raw.csv
-│        └─ 03_analysis_no_transform_metricas_por_faixa_formatado.csv
+│        ├─ 03_analysis_no_transform_metricas_por_faixa_formatado.csv
+│        ├─ 04_analysis_log1p_metricas_por_faixa_raw.csv
+│        └─ 04_analysis_log1p_metricas_por_faixa_formatado.csv
 ├─ documents/
 │  ├─ apresentacao_tp1_parte2.pdf                # Apresentação em PDF do trabalho
 │  └─ versao_parcial_artigo.pdf                  # Versão parcial do artigo do projeto
@@ -126,6 +129,8 @@ Ao final, o notebook grava:
 - `data/TMDB_movies_processed.csv`
 - figuras em `code/tmdb/images/`
 
+Na etapa de modelagem, essa mesma base processada é reutilizada em duas configurações de alvo: `revenue` em dólares e `log1p(revenue)`. Quando a transformação é usada, as predições são reconvertidas com `expm1` antes do cálculo das métricas finais.
+
 ### 3. Geração dos folds de revenue
 
 O notebook [code/revenue/01_fold_generation.ipynb](code/revenue/01_fold_generation.ipynb) define o protocolo de validação externa do projeto.
@@ -145,7 +150,7 @@ Os artefatos produzidos são:
 
 ### 4. Seleção de modelos e busca de hiperparâmetros
 
-O notebook [code/revenue/02_model_grid_search.ipynb](code/revenue/02_model_grid_search.ipynb) executa a comparação inicial entre os regressores.
+O notebook [code/revenue/02_model_grid_search.ipynb](code/revenue/02_model_grid_search.ipynb) executa a comparação inicial entre os regressores nas duas versões da variável-alvo: `Sem transformação` e `Com log1p`.
 
 Todos os modelos são avaliados com um `Pipeline` contendo:
 
@@ -169,7 +174,7 @@ O protocolo de avaliação é:
 - para cada fold, ajuste de hiperparâmetros com `GridSearchCV`;
 - dentro do fold de treino, um holdout interno `80/20` gerado por `train_test_split`;
 - scoring principal baseado em `neg_mean_squared_error`;
-- consolidação de `MSE`, `RMSE`, `MAE` e `R^2` na escala original em dólares.
+- consolidação de `MSE`, `RMSE`, `MAE` e `R^2` na escala original em dólares, inclusive para a variante com `log1p`, após reconversão das predições.
 
 Os artefatos produzidos são:
 
@@ -177,7 +182,7 @@ Os artefatos produzidos são:
 - `data/revenue_model_selection/model_selection_predictions.csv`
 - `data/revenue_model_selection/model_selection_summary.csv`
 
-### 5. Análise detalhada do melhor modelo
+### 5. Análise detalhada do melhor modelo sem transformação
 
 O notebook [code/revenue/03_analysis_no_transform.ipynb](code/revenue/03_analysis_no_transform.ipynb) carrega os artefatos da seleção de modelos e aprofunda a leitura do melhor candidato na versão sem transformação da variável-alvo.
 
@@ -194,6 +199,16 @@ Os artefatos produzidos são:
 
 - `data/revenue_model_selection/error_analysis/03_analysis_no_transform_metricas_por_faixa_raw.csv`
 - `data/revenue_model_selection/error_analysis/03_analysis_no_transform_metricas_por_faixa_formatado.csv`
+- figuras em `code/revenue/images/`
+
+### 6. Análise detalhada do melhor modelo com log1p
+
+O notebook [code/revenue/04_analysis_log1p.ipynb](code/revenue/04_analysis_log1p.ipynb) repete a mesma leitura analítica para a versão `Com log1p`, permitindo comparar diretamente como a transformação do alvo afeta resíduos, erro por faixa de receita, dispersão entre valores reais e previstos e importância de atributos.
+
+Os artefatos produzidos são:
+
+- `data/revenue_model_selection/error_analysis/04_analysis_log1p_metricas_por_faixa_raw.csv`
+- `data/revenue_model_selection/error_analysis/04_analysis_log1p_metricas_por_faixa_formatado.csv`
 - figuras em `code/revenue/images/`
 
 ---
@@ -247,7 +262,7 @@ O fluxo atual é:
 
 - `revenue` é discretizada em `5` faixas com `pd.qcut`;
 - os bins servem apenas para estratificar os folds;
-- a regressão continua sendo feita sobre o valor bruto de `revenue`;
+- a regressão é executada tanto sobre o valor bruto de `revenue` quanto sobre `log1p(revenue)`;
 - os folds externos são fixados com `random_state=222050006`;
 - os hiperparâmetros são escolhidos com `GridSearchCV` dentro de cada fold de treino;
 - as métricas finais são sempre calculadas na escala original em dólares.
@@ -259,7 +274,7 @@ Os arquivos consolidados registram:
 - `MAE`
 - `R^2`
 
-No estado atual dos artefatos salvos em `data/revenue_model_selection/model_selection_summary.csv`, há `8` linhas consolidadas, uma para cada regressor avaliado na versão `Sem transformacao`.
+No estado atual dos artefatos salvos em `data/revenue_model_selection/model_selection_summary.csv`, há `16` linhas consolidadas: `8` para `Sem transformação` e `8` para `Com log1p`.
 
 ---
 
@@ -295,6 +310,7 @@ code/tmdb/02_analysis_and_preprocessing.ipynb
 code/revenue/01_fold_generation.ipynb
 code/revenue/02_model_grid_search.ipynb
 code/revenue/03_analysis_no_transform.ipynb
+code/revenue/04_analysis_log1p.ipynb
 ```
 
 Fluxo mínimo para reproduzir a regressão a partir dos dados já salvos:
@@ -304,12 +320,14 @@ code/tmdb/02_analysis_and_preprocessing.ipynb
 code/revenue/01_fold_generation.ipynb
 code/revenue/02_model_grid_search.ipynb
 code/revenue/03_analysis_no_transform.ipynb
+code/revenue/04_analysis_log1p.ipynb
 ```
 
 Se o objetivo for apenas inspecionar os resultados consolidados que já estão versionados no repositório, você pode abrir diretamente:
 
 ```text
 code/revenue/03_analysis_no_transform.ipynb
+code/revenue/04_analysis_log1p.ipynb
 ```
 
 ---
@@ -338,6 +356,8 @@ Ao longo do pipeline, o projeto grava:
 - `data/revenue_model_selection/model_selection_summary.csv`
 - `data/revenue_model_selection/error_analysis/03_analysis_no_transform_metricas_por_faixa_raw.csv`
 - `data/revenue_model_selection/error_analysis/03_analysis_no_transform_metricas_por_faixa_formatado.csv`
+- `data/revenue_model_selection/error_analysis/04_analysis_log1p_metricas_por_faixa_raw.csv`
+- `data/revenue_model_selection/error_analysis/04_analysis_log1p_metricas_por_faixa_formatado.csv`
 - figuras em `code/tmdb/images/`
 - figuras em `code/revenue/images/`
 
@@ -345,7 +365,7 @@ Ao longo do pipeline, o projeto grava:
 
 ## Análise em notebook
 
-O notebook [code/revenue/03_analysis_no_transform.ipynb](code/revenue/03_analysis_no_transform.ipynb) é o ponto central para leitura dos resultados finais. Ele permite explorar:
+Os notebooks [code/revenue/03_analysis_no_transform.ipynb](code/revenue/03_analysis_no_transform.ipynb) e [code/revenue/04_analysis_log1p.ipynb](code/revenue/04_analysis_log1p.ipynb) concentram a leitura final dos resultados. Eles permitem explorar:
 
 - o ranking médio dos modelos avaliados;
 - a distribuição dos resíduos do melhor modelo;
