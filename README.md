@@ -57,8 +57,9 @@ UFSJ_Aprendizado_Maquina_TP1/
 │        ├─ 04_analysis_log1p_metricas_por_faixa_raw.csv
 │        └─ 04_analysis_log1p_metricas_por_faixa_formatado.csv
 ├─ documents/
-│  ├─ apresentacao_tp1_parte2.pdf                # Apresentação em PDF do trabalho
-│  └─ versao_parcial_artigo.pdf                  # Versão parcial do artigo do projeto
+│  ├─ apresentacao_da_versao_parcial_do_artigo.pdf
+│  ├─ versao_parcial_artigo.pdf                  # Versão parcial do artigo do projeto
+│  └─ versao_final_artigo.pdf                    # Versão final do artigo do projeto
 ├─ LICENSE
 ├─ README.md
 └─ requirements.txt
@@ -336,7 +337,8 @@ code/revenue/04_analysis_log1p.ipynb
 
 Além dos artefatos gerados pelo pipeline, o repositório também mantém em `documents/` os arquivos de apoio e entrega do trabalho:
 
-- `documents/apresentacao_tp1_parte2.pdf`
+- `documents/apresentacao_da_versao_parcial_do_artigo.pdf`
+- `documents/versao_final_artigo.pdf`
 - `documents/versao_parcial_artigo.pdf`
 
 Esses arquivos são mantidos no repositório como documentos versionados e não fazem parte da geração automática dos notebooks.
@@ -372,5 +374,3 @@ Os notebooks [code/revenue/03_analysis_no_transform.ipynb](code/revenue/03_analy
 - o comportamento do erro por faixa de receita;
 - a dispersão entre valores reais e preditos;
 - a importância média das features por permutação.
-
-As tabelas exportadas em `data/revenue_model_selection/error_analysis/` e as figuras salvas em `code/revenue/images/` são derivadas dessa etapa e podem ser reaproveitadas diretamente no relatório do trabalho.
