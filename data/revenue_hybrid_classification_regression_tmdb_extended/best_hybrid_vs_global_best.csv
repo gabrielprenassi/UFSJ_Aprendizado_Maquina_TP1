@@ -1,0 +1,3 @@
+cenário,modelo,mean_rmse,mean_mae,mean_r2,mean_band_accuracy,mean_band_macro_f1,delta_rmse_vs_global,delta_mae_vs_global,delta_r2_vs_global
+Melhor híbrido,Gradient Boosting Classifier + Gradient Boosting Regressor,117765110.23904891,58761231.52670699,0.5868043686509811,0.4774493278569218,0.4728521021767896,6100208.126394317,3603718.7267069966,-0.04337079867117777
+Melhor global TMDB estendido,XGBoost Regressor,111664902.1126546,55157512.8,0.6301751673221588,,,0.0,0.0,0.0

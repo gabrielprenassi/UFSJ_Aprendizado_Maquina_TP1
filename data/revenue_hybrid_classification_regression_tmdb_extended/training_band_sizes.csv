@@ -1,0 +1,151 @@
+model,fold,faixa_receita,n_train,uses_fallback,classifier_model
+Random Forest Regressor,0,Muito baixa receita,1246,0,Random Forest Classifier
+Random Forest Regressor,0,Baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,0,Média receita,1246,0,Random Forest Classifier
+Random Forest Regressor,0,Alta receita,1244,0,Random Forest Classifier
+Random Forest Regressor,0,Muito alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,1,Muito baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,1,Baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,1,Média receita,1246,0,Random Forest Classifier
+Random Forest Regressor,1,Alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,1,Muito alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,2,Muito baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,2,Baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,2,Média receita,1246,0,Random Forest Classifier
+Random Forest Regressor,2,Alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,2,Muito alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,3,Muito baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,3,Baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,3,Média receita,1246,0,Random Forest Classifier
+Random Forest Regressor,3,Alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,3,Muito alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,4,Muito baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,4,Baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,4,Média receita,1245,0,Random Forest Classifier
+Random Forest Regressor,4,Alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,4,Muito alta receita,1246,0,Random Forest Classifier
+Random Forest Regressor,5,Muito baixa receita,1246,0,Random Forest Classifier
+Random Forest Regressor,5,Baixa receita,1244,0,Random Forest Classifier
+Random Forest Regressor,5,Média receita,1245,0,Random Forest Classifier
+Random Forest Regressor,5,Alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,5,Muito alta receita,1246,0,Random Forest Classifier
+Random Forest Regressor,6,Muito baixa receita,1246,0,Random Forest Classifier
+Random Forest Regressor,6,Baixa receita,1244,0,Random Forest Classifier
+Random Forest Regressor,6,Média receita,1245,0,Random Forest Classifier
+Random Forest Regressor,6,Alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,6,Muito alta receita,1246,0,Random Forest Classifier
+Random Forest Regressor,7,Muito baixa receita,1246,0,Random Forest Classifier
+Random Forest Regressor,7,Baixa receita,1244,0,Random Forest Classifier
+Random Forest Regressor,7,Média receita,1245,0,Random Forest Classifier
+Random Forest Regressor,7,Alta receita,1245,0,Random Forest Classifier
+Random Forest Regressor,7,Muito alta receita,1246,0,Random Forest Classifier
+Random Forest Regressor,8,Muito baixa receita,1246,0,Random Forest Classifier
+Random Forest Regressor,8,Baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,8,Média receita,1246,0,Random Forest Classifier
+Random Forest Regressor,8,Alta receita,1244,0,Random Forest Classifier
+Random Forest Regressor,8,Muito alta receita,1246,0,Random Forest Classifier
+Random Forest Regressor,9,Muito baixa receita,1246,0,Random Forest Classifier
+Random Forest Regressor,9,Baixa receita,1245,0,Random Forest Classifier
+Random Forest Regressor,9,Média receita,1246,0,Random Forest Classifier
+Random Forest Regressor,9,Alta receita,1244,0,Random Forest Classifier
+Random Forest Regressor,9,Muito alta receita,1246,0,Random Forest Classifier
+Gradient Boosting Regressor,0,Muito baixa receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,0,Baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,0,Média receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,0,Alta receita,1244,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,0,Muito alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,1,Muito baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,1,Baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,1,Média receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,1,Alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,1,Muito alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,2,Muito baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,2,Baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,2,Média receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,2,Alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,2,Muito alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,3,Muito baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,3,Baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,3,Média receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,3,Alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,3,Muito alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,4,Muito baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,4,Baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,4,Média receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,4,Alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,4,Muito alta receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,5,Muito baixa receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,5,Baixa receita,1244,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,5,Média receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,5,Alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,5,Muito alta receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,6,Muito baixa receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,6,Baixa receita,1244,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,6,Média receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,6,Alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,6,Muito alta receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,7,Muito baixa receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,7,Baixa receita,1244,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,7,Média receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,7,Alta receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,7,Muito alta receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,8,Muito baixa receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,8,Baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,8,Média receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,8,Alta receita,1244,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,8,Muito alta receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,9,Muito baixa receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,9,Baixa receita,1245,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,9,Média receita,1246,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,9,Alta receita,1244,0,Gradient Boosting Classifier
+Gradient Boosting Regressor,9,Muito alta receita,1246,0,Gradient Boosting Classifier
+XGBoost Regressor,0,Muito baixa receita,1246,0,XGBoost Classifier
+XGBoost Regressor,0,Baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,0,Média receita,1246,0,XGBoost Classifier
+XGBoost Regressor,0,Alta receita,1244,0,XGBoost Classifier
+XGBoost Regressor,0,Muito alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,1,Muito baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,1,Baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,1,Média receita,1246,0,XGBoost Classifier
+XGBoost Regressor,1,Alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,1,Muito alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,2,Muito baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,2,Baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,2,Média receita,1246,0,XGBoost Classifier
+XGBoost Regressor,2,Alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,2,Muito alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,3,Muito baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,3,Baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,3,Média receita,1246,0,XGBoost Classifier
+XGBoost Regressor,3,Alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,3,Muito alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,4,Muito baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,4,Baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,4,Média receita,1245,0,XGBoost Classifier
+XGBoost Regressor,4,Alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,4,Muito alta receita,1246,0,XGBoost Classifier
+XGBoost Regressor,5,Muito baixa receita,1246,0,XGBoost Classifier
+XGBoost Regressor,5,Baixa receita,1244,0,XGBoost Classifier
+XGBoost Regressor,5,Média receita,1245,0,XGBoost Classifier
+XGBoost Regressor,5,Alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,5,Muito alta receita,1246,0,XGBoost Classifier
+XGBoost Regressor,6,Muito baixa receita,1246,0,XGBoost Classifier
+XGBoost Regressor,6,Baixa receita,1244,0,XGBoost Classifier
+XGBoost Regressor,6,Média receita,1245,0,XGBoost Classifier
+XGBoost Regressor,6,Alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,6,Muito alta receita,1246,0,XGBoost Classifier
+XGBoost Regressor,7,Muito baixa receita,1246,0,XGBoost Classifier
+XGBoost Regressor,7,Baixa receita,1244,0,XGBoost Classifier
+XGBoost Regressor,7,Média receita,1245,0,XGBoost Classifier
+XGBoost Regressor,7,Alta receita,1245,0,XGBoost Classifier
+XGBoost Regressor,7,Muito alta receita,1246,0,XGBoost Classifier
+XGBoost Regressor,8,Muito baixa receita,1246,0,XGBoost Classifier
+XGBoost Regressor,8,Baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,8,Média receita,1246,0,XGBoost Classifier
+XGBoost Regressor,8,Alta receita,1244,0,XGBoost Classifier
+XGBoost Regressor,8,Muito alta receita,1246,0,XGBoost Classifier
+XGBoost Regressor,9,Muito baixa receita,1246,0,XGBoost Classifier
+XGBoost Regressor,9,Baixa receita,1245,0,XGBoost Classifier
+XGBoost Regressor,9,Média receita,1246,0,XGBoost Classifier
+XGBoost Regressor,9,Alta receita,1244,0,XGBoost Classifier
+XGBoost Regressor,9,Muito alta receita,1246,0,XGBoost Classifier

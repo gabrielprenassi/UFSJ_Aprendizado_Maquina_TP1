@@ -1,0 +1,6 @@
+faixa_receita,quantidade_filmes,receita_minima,receita_maxima,mae_medio,residuo_medio,mediana_erro_absoluto,percentual_subestimados,percentual_superestimados,rmse
+Muito baixa receita,1384,US$ 0.00 mi,US$ 7.09 mi,US$ 22.42 mi,US$ -22.00 mi,US$ 14.59 mi,10.6%,89.4%,US$ 40.67 mi
+Baixa receita,1383,US$ 7.10 mi,US$ 22.44 mi,US$ 28.53 mi,US$ -26.71 mi,US$ 20.45 mi,12.7%,87.3%,US$ 44.26 mi
+Média receita,1384,US$ 22.47 mi,US$ 52.80 mi,US$ 30.25 mi,US$ -21.83 mi,US$ 18.46 mi,31.5%,68.5%,US$ 48.59 mi
+Alta receita,1383,US$ 52.90 mi,US$ 134.04 mi,US$ 41.33 mi,US$ -2.84 mi,US$ 31.43 mi,58.3%,41.7%,US$ 60.70 mi
+Muito alta receita,1384,US$ 134.10 mi,"US$ 2,923.71 mi",US$ 153.22 mi,US$ 71.02 mi,US$ 106.75 mi,70.5%,29.5%,US$ 231.70 mi

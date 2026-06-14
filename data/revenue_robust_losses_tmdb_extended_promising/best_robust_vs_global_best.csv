@@ -1,0 +1,3 @@
+cenário,modelo,mean_rmse,mean_mae,mean_r2,delta_rmse_vs_global,delta_mae_vs_global,delta_r2_vs_global
+Melhor robusto,XGBoost (Squared Error),111664902.1126546,55157512.8,0.6301751673221588,0.0,0.0,0.0
+Melhor global TMDB estendido,XGBoost Regressor,111664902.1126546,55157512.8,0.6301751673221588,0.0,0.0,0.0
