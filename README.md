@@ -1,6 +1,8 @@
-# Trabalho Prático 1 - Predição de receita de filmes com dados do TMDB
+# Trabalho Prático - Predição de receita de filmes com dados do TMDB
 
 Este repositório organiza o trabalho prático em um pipeline reprodutível para coleta de filmes via TMDB, preparação da base, validação estratificada para regressão, comparação sistemática de modelos, extensão do conjunto de atributos e análise consolidada dos resultados.
+
+Embora o nome do diretório e algumas pastas internas mantenham a sigla `TP1` por questões de continuidade do projeto, o conteúdo atual do repositório já engloba a continuação do trabalho e deve ser lido como a versão consolidada do trabalho prático.
 
 O projeto contempla:
 
@@ -288,11 +290,11 @@ Os artefatos produzidos são:
 
 ### 9. Funções de perda mais robustas
 
-O notebook [code/revenue/06_tmdb_extended_robust_losses.ipynb](code/revenue/06_tmdb_extended_robust_losses.ipynb) compara versões robustas de árvores, florestas, boosting e XGBoost, testando critérios como `absolute_error`, `Huber`, `quantile` e `pseudo-Huber`.
+O notebook [code/revenue/06_tmdb_extended_robust_losses.ipynb](code/revenue/06_tmdb_extended_robust_losses.ipynb) investiga se a principal limitação do melhor modelo global do cenário TMDB estendido pode ser atenuada apenas pela troca da função de perda.
 
-Nesta versão, a seleção foi enxugada para focar nas famílias de modelos mais promissoras do cenário TMDB estendido do notebook `05`: `Random Forest`, `Gradient Boosting` e `XGBoost`.
+No fluxo atual do projeto, essa etapa não reabre a comparação completa entre famílias. Em vez disso, ela seleciona automaticamente a família vencedora do notebook `05` e compara apenas variantes robustas dessa mesma família. Com os artefatos atualmente salvos no repositório, isso significa testar o `XGBoost` com objetivos `squared_error`, `absolute_error` e `pseudo-Huber`.
 
-O objetivo é verificar se losses menos sensíveis a outliers ajudam a lidar melhor com blockbusters e com a forte assimetria da variável-alvo.
+O objetivo é verificar se losses menos sensíveis a desvios extremos ajudam a lidar melhor com a forte assimetria da variável-alvo e com os maiores erros concentrados nas faixas superiores de arrecadação.
 
 Os artefatos produzidos são:
 
@@ -304,9 +306,9 @@ Os artefatos produzidos são:
 
 ### 10. Modelos por faixa de arrecadação
 
-O notebook [code/revenue/07_tmdb_extended_oracle_band_models.ipynb](code/revenue/07_tmdb_extended_oracle_band_models.ipynb) investiga o quanto modelos locais por faixa poderiam ajudar a reduzir o erro. Para isso, ele treina regressões especializadas por banda de receita e usa a banda **verdadeira** do conjunto de teste apenas como oracle de análise.
+O notebook [code/revenue/07_tmdb_extended_oracle_band_models.ipynb](code/revenue/07_tmdb_extended_oracle_band_models.ipynb) investiga o quanto modelos locais por faixa poderiam ajudar a reduzir o erro. Para isso, ele treina regressões especializadas por faixa de receita e usa a faixa **verdadeira** do conjunto de teste apenas como oracle de análise.
 
-Essa etapa é diagnóstica: ela não representa um pipeline de predição utilizável em produção, mas mostra o ganho potencial de especializar o ajuste em regiões mais homogêneas da distribuição. Ela funciona como justificativa metodológica para o notebook `08`, que tenta aproximar essa ideia com um fluxo realista de classificação + regressão.
+Essa etapa é diagnóstica: ela não representa um pipeline de predição utilizável em produção, mas mostra o ganho potencial de especializar o ajuste em regiões mais homogêneas da distribuição. Ela funciona como justificativa metodológica para os notebooks `08` e `09`, que tentam aproximar essa ideia com fluxos realistas de classificação + regressão.
 
 Os artefatos produzidos são:
 
@@ -319,7 +321,7 @@ Os artefatos produzidos são:
 
 ### 11. Abordagem híbrida classificação + regressão
 
-O notebook [code/revenue/08_tmdb_extended_classification_plus_regression.ipynb](code/revenue/08_tmdb_extended_classification_plus_regression.ipynb) implementa um pipeline em dois estágios: primeiro um classificador prevê a faixa de arrecadação do filme, depois um regressor local estima o valor contínuo dentro da banda prevista.
+O notebook [code/revenue/08_tmdb_extended_classification_plus_regression.ipynb](code/revenue/08_tmdb_extended_classification_plus_regression.ipynb) implementa um pipeline em dois estágios: primeiro um classificador prevê a faixa de arrecadação do filme, depois um regressor local estima o valor contínuo dentro da faixa prevista.
 
 Essa estratégia tenta transformar a assimetria de `revenue` em um problema hierárquico, no qual a escolha do regime de arrecadação antecede a regressão final.
 
@@ -469,7 +471,7 @@ Depois, preencha a chave:
 TMDB_API_KEY="YOUR_KEY"
 ```
 
-O código lê sempre de `.env`. O arquivo `.env.template` serve apenas como molde versionado para criar o `.env`.
+O fluxo recomendado é manter a chave em `.env`, que é o arquivo carregado automaticamente pelos utilitários do TMDB. Se esse arquivo não existir, o código ainda aceita `TMDB_API_KEY` como variável de ambiente de fallback. O arquivo `.env.template` serve apenas como molde versionado para criar o `.env`.
 
 Se você pretende apenas reproduzir a parte de modelagem a partir dos CSVs já presentes, essa etapa é opcional.
 

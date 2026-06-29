@@ -1,2 +1,2 @@
-model,mean_confidence,median_confidence,p25_confidence,p75_confidence,min_confidence,max_confidence,band_accuracy,band_accuracy_pm1
-Gradient Boosting Classifier + Gradient Boosting Regressor,0.48420145339132564,0.4164636556350847,0.34672832934992803,0.5628729752268355,0.2245663459097806,0.9970121805445612,0.47745013009540327,0.8399826539462273
+model,mean_confidence,median_confidence,p25_confidence,p75_confidence,min_confidence,max_confidence,band_macro_f1
+Gradient Boosting Classifier + Gradient Boosting Regressor,0.4905901588996853,0.42421380041857104,0.3508473303422626,0.574827834010478,0.2245663459097806,0.9970121805445612,0.4696479573179917

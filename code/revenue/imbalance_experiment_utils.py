@@ -15,7 +15,6 @@ from sklearn.ensemble import (
     RandomForestRegressor,
 )
 from sklearn.metrics import (
-    accuracy_score,
     f1_score,
     get_scorer,
     mean_absolute_error,
@@ -362,7 +361,6 @@ def compute_regression_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict[s
 
 def compute_classification_metrics(y_true_codes: np.ndarray, y_pred_codes: np.ndarray) -> dict[str, float]:
     return {
-        "band_accuracy": float(accuracy_score(y_true_codes, y_pred_codes)),
         "band_macro_f1": float(f1_score(y_true_codes, y_pred_codes, average="macro", zero_division=0)),
     }
 
@@ -785,14 +783,96 @@ def compute_hybrid_summary(results_df: pd.DataFrame) -> pd.DataFrame:
             std_mae=("mae", "std"),
             mean_r2=("r2", "mean"),
             std_r2=("r2", "std"),
-            mean_band_accuracy=("band_accuracy", "mean"),
-            std_band_accuracy=("band_accuracy", "std"),
             mean_band_macro_f1=("band_macro_f1", "mean"),
             std_band_macro_f1=("band_macro_f1", "std"),
         )
         .reset_index()
         .sort_values(["mean_rmse", "mean_mae", "model"])
         .reset_index(drop=True)
+    )
+
+def build_classifier_best_params_lookup(
+    results_df: pd.DataFrame,
+    *,
+    params_column: str = "classifier_best_params",
+) -> dict[str, dict[int, dict[str, Any]]]:
+    classifier_lookup: dict[str, dict[int, dict[str, Any]]] = {}
+
+    for row in results_df.itertuples(index=False):
+        classifier_name = str(getattr(row, "classifier_model"))
+        fold = int(getattr(row, "fold"))
+        params = getattr(row, params_column)
+        classifier_lookup.setdefault(classifier_name, {})[fold] = dict(params)
+
+    return classifier_lookup
+
+def load_classifier_best_params_lookup_from_artifact_dir(
+    artifact_dir: str | Path = HYBRID_CLASSIFICATION_REGRESSION_ARTIFACT_DIR,
+    *,
+    target_name: str = "Sem transformação",
+) -> dict[str, dict[int, dict[str, Any]]]:
+    artifact_dir = Path(artifact_dir)
+    results_df = pd.read_csv(artifact_dir / "model_selection_results.csv")
+    results_df = results_df.loc[results_df["target_version"] == target_name].copy()
+
+    if results_df.empty:
+        raise ValueError(
+            f"Nenhum resultado encontrado em {artifact_dir} para o alvo '{target_name}'."
+        )
+
+    results_df["classifier_best_params"] = results_df["classifier_best_params_json"].apply(
+        deserialize_params
+    )
+    deduplicated_df = results_df.drop_duplicates(
+        subset=["classifier_model", "fold"],
+        keep="first",
+    )
+    return build_classifier_best_params_lookup(
+        deduplicated_df,
+        params_column="classifier_best_params",
+    )
+
+def _prefix_model_params(params: dict[str, Any]) -> dict[str, Any]:
+    return {f"model__{key}": value for key, value in params.items()}
+
+def _fit_classifier_for_fold(
+    *,
+    classifier_name: str,
+    estimator: Any,
+    param_grid: dict[str, list[Any]],
+    X_train: pd.DataFrame,
+    y_train: np.ndarray,
+    progress_bar=None,
+    fold: int,
+    classifier_best_params_lookup: dict[str, dict[int, dict[str, Any]]] | None = None,
+) -> tuple[Any, dict[str, Any]]:
+    precomputed_params = None
+    if classifier_best_params_lookup is not None:
+        precomputed_params = classifier_best_params_lookup.get(classifier_name, {}).get(fold)
+
+    if precomputed_params is not None:
+        classifier = build_pipeline(clone(estimator))
+        classifier.set_params(**_prefix_model_params(precomputed_params))
+        classifier.fit(X_train, y_train)
+
+        if progress_bar is not None:
+            progress_bar.update(1)
+            progress_bar.set_postfix_str(
+                f"{classifier_name} | fold {fold} | macro-F1=reuso | refit=sim",
+                refresh=True,
+            )
+
+        return classifier, dict(precomputed_params)
+
+    return _run_manual_single_split_search(
+        estimator=estimator,
+        param_grid=param_grid,
+        scoring="f1_macro",
+        X_train=X_train,
+        y_train=y_train,
+        cv_splits=make_stratified_holdout_split(y_train),
+        progress_bar=progress_bar,
+        task_label=f"{classifier_name} | fold {fold}",
     )
 
 def run_hybrid_classification_regression_experiment(
@@ -804,6 +884,7 @@ def run_hybrid_classification_regression_experiment(
     revenue_bins: np.ndarray,
     best_params_lookup: dict[str, dict[str, list[dict[str, Any]]]],
     classifier_configs: dict[str, dict[str, Any]] | None = None,
+    classifier_best_params_lookup: dict[str, dict[int, dict[str, Any]]] | None = None,
     target_name: str = "Sem transformação",
     min_band_samples: int = 80,
     show_progress: bool = True,
@@ -814,7 +895,15 @@ def run_hybrid_classification_regression_experiment(
     training_frames: list[pd.DataFrame] = []
 
     tasks = [
-        {"classifier_name": classifier_name, "config": config, "row": row}
+        {
+            "classifier_name": classifier_name,
+            "config": config,
+            "row": row,
+            "reuse_params": bool(
+                classifier_best_params_lookup
+                and classifier_best_params_lookup.get(classifier_name, {}).get(int(row["fold"]))
+            ),
+        }
         for classifier_name, config in classifier_configs.items()
         for _, row in folds_df.iterrows()
     ]
@@ -850,15 +939,15 @@ def run_hybrid_classification_regression_experiment(
                 refresh=True,
             )
 
-        best_classifier, classifier_best_params = _run_manual_single_split_search(
+        best_classifier, classifier_best_params = _fit_classifier_for_fold(
+            classifier_name=classifier_name,
             estimator=config["estimator"],
             param_grid=config["param_grid"],
-            scoring="accuracy",
             X_train=X_train,
             y_train=y_train_band_codes,
-            cv_splits=make_stratified_holdout_split(y_train_band_codes),
             progress_bar=progress_bar,
-            task_label=f"{classifier_name} | fold {fold}",
+            fold=fold,
+            classifier_best_params_lookup=classifier_best_params_lookup,
         )
         y_pred_band_codes = np.asarray(best_classifier.predict(X_test), dtype=int)
         y_pred_bands = pd.Categorical.from_codes(
@@ -945,6 +1034,7 @@ def run_soft_routing_classification_regression_experiment(
     revenue_bins: np.ndarray,
     best_params_lookup: dict[str, dict[str, list[dict[str, Any]]]],
     classifier_configs: dict[str, dict[str, Any]] | None = None,
+    classifier_best_params_lookup: dict[str, dict[int, dict[str, Any]]] | None = None,
     target_name: str = "Sem transformação",
     min_band_samples: int = 80,
     show_progress: bool = True,
@@ -955,7 +1045,15 @@ def run_soft_routing_classification_regression_experiment(
     training_frames: list[pd.DataFrame] = []
 
     tasks = [
-        {"classifier_name": classifier_name, "config": config, "row": row}
+        {
+            "classifier_name": classifier_name,
+            "config": config,
+            "row": row,
+            "reuse_params": bool(
+                classifier_best_params_lookup
+                and classifier_best_params_lookup.get(classifier_name, {}).get(int(row["fold"]))
+            ),
+        }
         for classifier_name, config in classifier_configs.items()
         for _, row in folds_df.iterrows()
     ]
@@ -991,15 +1089,15 @@ def run_soft_routing_classification_regression_experiment(
                 refresh=True,
             )
 
-        best_classifier, classifier_best_params = _run_manual_single_split_search(
+        best_classifier, classifier_best_params = _fit_classifier_for_fold(
+            classifier_name=classifier_name,
             estimator=config["estimator"],
             param_grid=config["param_grid"],
-            scoring="accuracy",
             X_train=X_train,
             y_train=y_train_band_codes,
-            cv_splits=make_stratified_holdout_split(y_train_band_codes),
             progress_bar=progress_bar,
-            task_label=f"{classifier_name} | fold {fold}",
+            fold=fold,
+            classifier_best_params_lookup=classifier_best_params_lookup,
         )
         y_pred_band_codes = np.asarray(best_classifier.predict(X_test), dtype=int)
         y_pred_bands = pd.Categorical.from_codes(
@@ -1105,7 +1203,9 @@ def _make_candidate_progress_bar(
         return None
 
     total_candidates = sum(
-        len(ParameterGrid(task["config"]["param_grid"])) + 1
+        1
+        if task.get("reuse_params")
+        else len(ParameterGrid(task["config"]["param_grid"])) + 1
         for task in tasks
     )
     return tqdm(
