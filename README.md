@@ -87,10 +87,12 @@ UFSJ_Aprendizado_Maquina_TP1/
 │     ├─ best_soft_routing_vs_global_and_oracle.csv # Comparação final entre soft routing, global e oracle
 │     └─ error_analysis/
 ├─ documents/
-│  └─ tp1/
-│     ├─ apresentacao_da_versao_parcial_do_artigo.pdf
-│     ├─ versao_parcial_artigo.pdf               # Versão parcial do artigo do projeto
-│     └─ versao_final_artigo.pdf                 # Versão final do artigo do projeto
+│  ├─ tp1/
+│  │  ├─ apresentacao_da_versao_parcial_do_artigo.pdf
+│  │  ├─ versao_parcial_artigo.pdf               # Versão parcial do artigo do projeto
+│  │  └─ versao_final_artigo.pdf                 # Versão final da primeira etapa do artigo
+│  └─ tp2/
+│     └─ versao_final_artigo_parte2.pdf          # Versão final consolidada da continuação do artigo
 ├─ LICENSE
 ├─ README.md
 └─ requirements.txt
@@ -540,11 +542,12 @@ O fluxo acima cria apenas novos artefatos associados à base estendida e às an�
 
 ## Documentos versionados
 
-Além dos artefatos gerados pelo pipeline, o repositório também mantém em `documents/tp1/` os arquivos de apoio e entrega do trabalho:
+Além dos artefatos gerados pelo pipeline, o repositório também mantém em `documents/` os arquivos versionados de entrega do trabalho:
 
 - `documents/tp1/apresentacao_da_versao_parcial_do_artigo.pdf`
 - `documents/tp1/versao_final_artigo.pdf`
 - `documents/tp1/versao_parcial_artigo.pdf`
+- `documents/tp2/versao_final_artigo_parte2.pdf`
 
 Esses arquivos são mantidos no repositório como documentos versionados e não fazem parte da geração automática dos notebooks.
 
